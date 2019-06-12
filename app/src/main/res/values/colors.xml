@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#1e1f21</color>
+    <color name="colorPrimaryDark">#0e0e0f</color>
+    <color name="colorAccent">#FF4081</color>
+    <color name="colorGrayedOut">#7c7c7c</color> <!-- Black a bit grayed out -->
+    <color name="colorBlack">#474747</color> <!-- Light black? -->
+    <color name="colorGreen">#024200</color>
+</resources>

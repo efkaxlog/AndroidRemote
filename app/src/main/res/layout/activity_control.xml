@@ -1,0 +1,202 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/cl_control"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ControlActivity">
+
+
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/toolbar_control"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:theme="@style/ToolbarStyle"
+        app:layout_constraintTop_toTopOf="@id/cl_control">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/tv_controls_title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="2dp"
+                style="@style/ToolbarTitleTextAppearance" />
+
+            <TextView
+                android:id="@+id/tv_controls_subtitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="6dp"
+                style="@style/ToolbarSubTitleTextAppearance"/>
+
+        </LinearLayout>
+
+
+    </android.support.v7.widget.Toolbar>
+
+
+    <TextView
+        android:id="@+id/tv_mouse"
+        style="@style/ControlsSectionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:text="@string/mouse"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar_control" />
+
+    <Button
+        android:id="@+id/btn_left_click"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:onClick="onTaskClick"
+        android:tag="left_click"
+        android:text="@string/left_mouse_click"
+        app:layout_constraintEnd_toStartOf="@+id/btn_right_click"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_mouse" />
+
+    <Button
+        android:id="@+id/btn_right_click"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:onClick="onTaskClick"
+        android:tag="right_click"
+        android:text="@string/right_mouse_click"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btn_left_click"
+        app:layout_constraintTop_toBottomOf="@+id/tv_mouse" />
+
+
+    <TextView
+        android:id="@+id/tv_keyboard"
+        style="@style/ControlsSectionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/keys"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_left_click" />
+
+    <Button
+        android:id="@+id/btn_space"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:onClick="onTaskClick"
+        android:tag="space"
+        android:text="@string/space"
+        app:layout_constraintEnd_toStartOf="@+id/btn_alt_tab"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_keyboard" />
+
+    <Button
+        android:id="@+id/btn_alt_tab"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:onClick="onTaskClick"
+        android:tag="alt_tab"
+        android:text="@string/alt_tab"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btn_space"
+        app:layout_constraintTop_toBottomOf="@+id/tv_keyboard" />
+
+    <Button
+        android:id="@+id/btn_play_pause"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:onClick="onTaskClick"
+        android:tag="play_pause"
+        android:text="@string/play_pause"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_space" />
+
+    <Button
+        android:id="@+id/btn_volume_up"
+        android:layout_width="0dp"
+        android:layout_height="48dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:onClick="onTaskClick"
+        android:tag="volume_up"
+        android:text="@string/volume_up"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btn_volume_down"
+        app:layout_constraintTop_toBottomOf="@+id/btn_play_pause" />
+
+
+    <Button
+        android:id="@+id/btn_volume_down"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:onClick="onTaskClick"
+        android:tag="volume_down"
+        android:text="@string/volume_down"
+        app:layout_constraintEnd_toStartOf="@+id/btn_volume_up"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_play_pause" />
+
+    <TextView
+        android:id="@+id/tv_commands"
+        style="@style/ControlsSectionText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:text="@string/commands"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btn_volume_down" />
+
+    <Button
+        android:id="@+id/btn_shutdown"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="onTaskClick"
+        android:tag="shutdown"
+        android:text="@string/shutdown"
+        app:layout_constraintEnd_toStartOf="@+id/btn_shutdown_args"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_commands" />
+
+    <Button
+        android:id="@+id/btn_shutdown_args"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="8dp"
+        android:layout_marginRight="8dp"
+        android:layout_marginTop="8dp"
+        android:onClick="onTaskClick"
+        android:tag="shutdown_args"
+        android:text="@string/shutdown_args"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.5"
+        app:layout_constraintStart_toEndOf="@+id/btn_shutdown"
+        app:layout_constraintTop_toBottomOf="@+id/tv_commands" />
+
+
+</android.support.constraint.ConstraintLayout>

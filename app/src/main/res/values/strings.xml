@@ -1,0 +1,19 @@
+<resources>
+    <string name="app_name">Remote Control</string>
+    <string name="label_servers">Servers</string>
+    <string name="button_search">Search</string>
+    <string name="empty_servers">No available servers.\nPull down to refresh.</string>
+    <string name="mouse">Mouse</string>
+    <string name="left_mouse_click">Left Click</string>
+    <string name="right_mouse_click">Right Click</string>
+    <string name="keys">Keyboard</string>
+    <string name="space">Space</string>
+    <string name="alt_tab">Alt Tab</string>
+    <string name="commands">Commands</string>
+    <string name="shutdown">Shutdown</string>
+    <string name="shutdown_args">Shutdown...</string>
+    <string name="volume_up">Volume +</string>
+    <string name="volume_down">Volume -</string>
+    <string name="volume_mute">Mute</string>
+    <string name="play_pause">Play/Pause</string>
+</resources>

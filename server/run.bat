@@ -1,0 +1,1 @@
+python Z:\projects\remote\main.py
