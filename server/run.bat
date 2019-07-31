@@ -1,1 +1,1 @@
-python Z:\projects\remote\main.py
+python Z:\projects\RemoteControl\server\main.py

@@ -1,4 +1,4 @@
-package com.bajera.xlog.rc;
+package com.bajera.xlog.rc.models;
 
 /**
  * This class is only used for holding a server's information.

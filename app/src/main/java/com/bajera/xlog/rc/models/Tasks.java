@@ -1,4 +1,4 @@
-package com.bajera.xlog.rc;
+package com.bajera.xlog.rc.models;
 
 import java.util.HashMap;
 

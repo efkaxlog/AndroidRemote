@@ -16,4 +16,9 @@
     <string name="volume_down">Volume -</string>
     <string name="volume_mute">Mute</string>
     <string name="play_pause">Play/Pause</string>
+
+    <!--Shared Preferences keys-->
+    <string name="preference_file_key">com.bajera.xlog.rc</string>
+    <string name="key_last_server_hostname">last_server_hostname</string>
+    <string name="key_last_server_address">last_server_address</string>
 </resources>

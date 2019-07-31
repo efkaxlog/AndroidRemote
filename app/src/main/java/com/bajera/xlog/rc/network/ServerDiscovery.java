@@ -1,4 +1,10 @@
-package com.bajera.xlog.rc;
+package com.bajera.xlog.rc.network;
+
+import android.os.AsyncTask;
+import android.util.Log;
+
+import com.bajera.xlog.rc.settings.Config;
+import com.bajera.xlog.rc.models.Server;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
@@ -12,20 +18,26 @@ import java.util.ArrayList;
 /**
  * Class used for broadcasting to LAN in order to find active servers on the network.
  */
-public class ServerDiscovery implements Observable {
+public class ServerDiscovery extends AsyncTask<ArrayList, Void, NetworkNotification> {
 
+    // Used for Notifications for Observers
+    public static final String serverSearchDone = "serverSearchDone";
+
+    private NetworkObserver observer;
     private int port;
     private String address = "255.255.255.255"; // Broadcast address
     private InetAddress inetAddress;
     private DatagramSocket socket;
     private int responseBufferSize= 1024;
+    private int socketTimeout = 200; // milliseconds
 
-    ServerDiscovery(int port) throws SocketException, UnknownHostException {
-        this.port = port;
+    public ServerDiscovery(NetworkObserver observer) throws SocketException, UnknownHostException {
+        this.port = Config.port;
         socket = new DatagramSocket();
         socket.setBroadcast(true);
-        socket.setSoTimeout(Config.socketTimeout);
+        socket.setSoTimeout(socketTimeout);
         inetAddress = InetAddress.getByName(address);
+        this.observer = observer;
     }
 
     /**
@@ -33,16 +45,21 @@ public class ServerDiscovery implements Observable {
      * @param servers ArrayList where found servers will be added.
      */
     public void findServers(ArrayList<Server> servers) throws IOException {
+        Log.v("SD", "in findServers()");
         String message = "server_info_request";
         DatagramPacket messagePacket = new DatagramPacket(
                 message.getBytes(), message.getBytes().length, inetAddress, port);
+        Log.v("SD", "Before send()");
         socket.send(messagePacket);
+        Log.v("SD", "Afer send()");
 
         while (true) {
             byte[] buffer = new byte[responseBufferSize];
             DatagramPacket responsePacket = new DatagramPacket(buffer, buffer.length);
             try {
+                Log.v("SD", "Before receive()");
                 socket.receive(responsePacket);
+                Log.v("SD", "After receive()");
             } catch (SocketTimeoutException e) {
                 break;
             }
@@ -52,24 +69,25 @@ public class ServerDiscovery implements Observable {
             Server server = new Server(
                     hostname, responsePacket.getAddress().getHostAddress(), Config.port);
             servers.add(server);
-            notifyObservers();
         }
     }
 
-    @Override
-    public void addObserver(Observer observer) {
-        observers.add(observer);
-    }
 
     @Override
-    public void removeObserver(Observer observer) {
-        observers.remove(observer);
-    }
-
-    @Override
-    public void notifyObservers() {
-        for (Observer o : observers) {
-            o.update();
+    protected NetworkNotification doInBackground(ArrayList... arrayLists) {
+        ArrayList<Server> servers = arrayLists[0];
+        boolean success = false;
+        try {
+            findServers(servers);
+            success = true;
+        } catch (IOException e) {
+            e.printStackTrace();
         }
+        return new NetworkNotification(serverSearchDone, success, null);
+    }
+
+    @Override
+    protected void onPostExecute(NetworkNotification result) {
+        observer.notify(result);
     }
 }
