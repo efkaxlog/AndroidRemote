@@ -6,6 +6,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bajera.xlog.rc.presenters.ControlActivityPresenter;
 import com.bajera.xlog.rc.R;
@@ -55,5 +56,16 @@ public class ControlActivity extends AppCompatActivity implements ControlActivit
         TextView tvSubtitle = (TextView) toolbar.findViewById(R.id.tv_toolbar_subtitle);
         tvTitle.setText(title);
         tvSubtitle.setText(subtitle);
+    }
+
+    @Override
+    public void postConnectAttempt(boolean success, String hostname) {
+        CharSequence text;
+        if (success) {
+            text = "Connected to " + hostname;
+        } else {
+            text = "Could not connect to " + hostname;
+        }
+        Toast.makeText(getApplicationContext(), text, Toast.LENGTH_SHORT).show();
     }
 }

@@ -45,6 +45,8 @@ public class ControlActivityPresenter implements NetworkObserver {
         switch (notification.getMessage()) {
             case Connection.actionConnect:
                 this.connection = notification.getConnection();
+                view.postConnectAttempt(notification.success(),
+                        connection.getServer().getHostname());
                 break;
             case Connection.actionSendData:
                 break;
@@ -57,5 +59,6 @@ public class ControlActivityPresenter implements NetworkObserver {
 
     public interface View {
         void setToolbarText(String title, String subtitle);
+        void postConnectAttempt(boolean success, String hostname);
     }
 }
