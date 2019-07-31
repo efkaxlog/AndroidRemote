@@ -3,6 +3,7 @@ package com.bajera.xlog.rc.ui;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -50,8 +51,8 @@ public class ControlActivity extends AppCompatActivity implements ControlActivit
 
     @Override
     public void setToolbarText(String title, String subtitle) {
-        TextView tvTitle = (TextView) findViewById(R.id.tv_controls_title);
-        TextView tvSubtitle = (TextView) findViewById(R.id.tv_controls_subtitle);
+        TextView tvTitle = (TextView) toolbar.findViewById(R.id.tv_toolbar_title);
+        TextView tvSubtitle = (TextView) toolbar.findViewById(R.id.tv_toolbar_subtitle);
         tvTitle.setText(title);
         tvSubtitle.setText(subtitle);
     }

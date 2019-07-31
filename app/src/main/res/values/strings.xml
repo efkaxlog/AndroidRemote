@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Remote Control</string>
     <string name="label_servers">Servers</string>
+    <string name="label_choose_server">Choose a server...</string>
     <string name="button_search">Search</string>
     <string name="empty_servers">No available servers.\nPull down to refresh.</string>
     <string name="mouse">Mouse</string>

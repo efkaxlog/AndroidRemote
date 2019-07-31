@@ -52,6 +52,7 @@ public class ServersActivity extends AppCompatActivity implements ServersActivit
         serversListView = findViewById(R.id.lv_servers);
         serversListView.setOnItemClickListener(listViewItemClickListener);
         toolbar = findViewById(R.id.toolbar_servers);
+        setToolbarText();
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false); // adding a TextView instead
         TextView emptyServers = (TextView) findViewById(R.id.tv_empty_servers);
@@ -68,17 +69,26 @@ public class ServersActivity extends AppCompatActivity implements ServersActivit
         presenter.onViewCreated();
     }
 
-    @Override
-    protected void onResume() {
-        presenter.serverSearch();
-        super.onResume();
-    }
-
     private void listViewItemClicked(View item) {
         TextView tvHostname = (TextView) item.findViewById(R.id.tv_server_hostname);
         TextView tvAddress = (TextView) item.findViewById(R.id.tv_server_address);
         presenter.onListViewItemClicked(
                 tvHostname.getText().toString(), tvAddress.getText().toString());
+    }
+
+    private void setToolbarText() {
+        TextView title = (TextView) findViewById(R.id.tv_toolbar_title);
+        TextView subtitle = (TextView) findViewById(R.id.tv_toolbar_subtitle);
+        title.setText(R.string.label_servers);
+        subtitle.setText(R.string.label_choose_server);
+
+
+    }
+
+    @Override
+    protected void onResume() {
+        presenter.serverSearch();
+        super.onResume();
     }
 
     @Override
