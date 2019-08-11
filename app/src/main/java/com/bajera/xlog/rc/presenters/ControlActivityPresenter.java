@@ -1,7 +1,11 @@
 package com.bajera.xlog.rc.presenters;
 
+import android.util.Log;
+
 import com.bajera.xlog.rc.network.Connection;
 import com.bajera.xlog.rc.models.Server;
+import com.bajera.xlog.rc.network.PingNotification;
+import com.bajera.xlog.rc.network.Pinger;
 import com.bajera.xlog.rc.settings.SharedPreferencesManager;
 import com.bajera.xlog.rc.models.Tasks;
 import com.bajera.xlog.rc.network.ConnectTask;
@@ -17,6 +21,7 @@ public class ControlActivityPresenter implements NetworkObserver {
     private Server server;
     private Connection connection;
     private SharedPreferencesManager sharedPrefs;
+    private Pinger pinger = new Pinger(this);
 
     public ControlActivityPresenter(View view, SharedPreferencesManager sharedPrefs) {
         this.view = view;
@@ -28,16 +33,34 @@ public class ControlActivityPresenter implements NetworkObserver {
         view.setToolbarText(toolbarTitle, server.getHostname());
     }
 
-    public void onTaskClick(String task) {
-        new SendDataTask(this).execute(connection, Tasks.get(task));
-    }
+
 
     public void onResume() {
         new ConnectTask(this).execute(server);
+
     }
 
     public void onStop() {
         new DisconnectTask(this).execute(connection);
+    }
+
+    public void onTaskClick(String task) {
+        new SendDataTask(this).execute(connection, Tasks.get(task));
+    }
+
+    private void onPingResult(PingNotification result) {
+        String pingText = Integer.toString(result.getPingTime());
+        view.setPingText(pingText);
+
+    }
+
+    public void onPingToggle(boolean isChecked) {
+        if (isChecked) {
+            pinger.start(connection);
+        } else {
+            pinger.stop();
+            view.setPingText("-");
+        }
     }
 
     @Override
@@ -52,6 +75,10 @@ public class ControlActivityPresenter implements NetworkObserver {
                 break;
             case Connection.actionDisconnect:
                 break;
+            case Connection.actionPing:
+                PingNotification pingResult = (PingNotification) notification;
+                onPingResult(pingResult);
+                break;
             default:
                 break;
         }
@@ -60,5 +87,6 @@ public class ControlActivityPresenter implements NetworkObserver {
     public interface View {
         void setToolbarText(String title, String subtitle);
         void postConnectAttempt(boolean success, String hostname);
+        void setPingText(String pingText);
     }
 }

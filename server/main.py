@@ -17,6 +17,8 @@ def main():
             if data == "close":
                 server.send_ack()
                 break
+            elif data == "ping":
+                server.send_ack()
             task = tasks.make_task(data)
             if task is not None:
                 task.execute()

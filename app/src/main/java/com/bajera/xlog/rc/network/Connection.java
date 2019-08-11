@@ -19,6 +19,7 @@ public class Connection {
     public static final String actionConnect = "connect";
     public static final String actionSendData = "sendData";
     public static final String actionDisconnect  = "disconnect";
+    public static final String actionPing = "ping";
 
     private Server server;
     private Socket socket;
@@ -71,6 +72,14 @@ public class Connection {
         inputStream.close();
         reader.close();
         socket.close();
+    }
+
+    /**
+     * Send some data and receive a bit too.
+     */
+    public void ping() throws IOException {
+        send("ping");
+        receiveAck();
     }
 
     public Server getServer() {

@@ -171,5 +171,14 @@
         app:layout_constraintStart_toEndOf="@+id/btn_shutdown"
         app:layout_constraintTop_toBottomOf="@+id/tv_commands" />
 
+    <include
+        android:id="@+id/ping_bar"
+        layout="@layout/ping_bar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_marginBottom="8dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        tools:layout_editor_absoluteX="-16dp"></include>
+
 
 </android.support.constraint.ConstraintLayout>
