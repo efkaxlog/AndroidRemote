@@ -18,6 +18,7 @@
     <string name="volume_mute">Mute</string>
     <string name="play_pause">Play/Pause</string>
     <string name="ping">Ping</string>
+    <string name="screenshot">Screenshot</string>
 
     <!--Shared Preferences keys-->
     <string name="preference_file_key">com.bajera.xlog.rc</string>

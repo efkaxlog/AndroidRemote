@@ -35,17 +35,14 @@ public class Pinger {
      */
     public void start(final Connection connection) {
         running = true;
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                while (running) {
-                    PingNotification result = ping(connection);
-                    observer.notify(result);
-                    try {
-                        Thread.sleep(delay);
-                    } catch (InterruptedException e) {
-                        e.printStackTrace();
-                    }
+        new Thread(() -> {
+            while (running) {
+                PingNotification result = ping(connection);
+                observer.notify(result);
+                try {
+                    Thread.sleep(delay);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
             }
         }).start();

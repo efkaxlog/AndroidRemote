@@ -50,7 +50,7 @@ public class SharedPreferencesManager {
         String address = sharedPrefs.getString(
                 context.getString(R.string.key_last_server_address), null);
         if (hostname != null && address != null) {
-            return new Server(hostname, address, Config.port);
+            return new Server(hostname, address);
         } else {
             return null;
         }

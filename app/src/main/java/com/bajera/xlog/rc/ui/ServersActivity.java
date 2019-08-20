@@ -35,12 +35,7 @@ public class ServersActivity extends AppCompatActivity implements ServersActivit
     private SwipeRefreshLayout pullRefresh;
 
     private AdapterView.OnItemClickListener listViewItemClickListener =
-            new AdapterView.OnItemClickListener() {
-        @Override
-        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-            listViewItemClicked(view);
-        }
-    };
+            (adapterView, view, i, l) -> listViewItemClicked(view);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,34 +50,27 @@ public class ServersActivity extends AppCompatActivity implements ServersActivit
         setToolbarText();
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false); // adding a TextView instead
-        TextView emptyServers = (TextView) findViewById(R.id.tv_empty_servers);
+        TextView emptyServers = findViewById(R.id.tv_empty_servers);
         serversListView.setEmptyView(emptyServers);
-        pullRefresh = (SwipeRefreshLayout) findViewById(R.id.pull_refresh);
-        pullRefresh.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
-            @Override
-            public void onRefresh() {
-                Log.v("SC", "in onRefresh()");
-
-                presenter.serverSearch();
-            }
+        pullRefresh = findViewById(R.id.pull_refresh);
+        pullRefresh.setOnRefreshListener(() -> {
+            presenter.serverSearch();
         });
         presenter.onViewCreated();
     }
 
     private void listViewItemClicked(View item) {
-        TextView tvHostname = (TextView) item.findViewById(R.id.tv_server_hostname);
-        TextView tvAddress = (TextView) item.findViewById(R.id.tv_server_address);
+        TextView tvHostname = item.findViewById(R.id.tv_server_hostname);
+        TextView tvAddress = item.findViewById(R.id.tv_server_address);
         presenter.onListViewItemClicked(
                 tvHostname.getText().toString(), tvAddress.getText().toString());
     }
 
     private void setToolbarText() {
-        TextView title = (TextView) findViewById(R.id.tv_toolbar_title);
-        TextView subtitle = (TextView) findViewById(R.id.tv_toolbar_subtitle);
+        TextView title = findViewById(R.id.tv_toolbar_title);
+        TextView subtitle = findViewById(R.id.tv_toolbar_subtitle);
         title.setText(R.string.label_servers);
         subtitle.setText(R.string.label_choose_server);
-
-
     }
 
     @Override

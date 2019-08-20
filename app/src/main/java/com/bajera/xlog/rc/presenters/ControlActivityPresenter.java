@@ -1,15 +1,19 @@
 package com.bajera.xlog.rc.presenters;
 
+import android.graphics.Bitmap;
 import android.util.Log;
 
+import com.bajera.xlog.rc.models.Data;
 import com.bajera.xlog.rc.network.Connection;
 import com.bajera.xlog.rc.models.Server;
+import com.bajera.xlog.rc.network.DataReceiveNotification;
+import com.bajera.xlog.rc.network.DisconnectTask;
 import com.bajera.xlog.rc.network.PingNotification;
 import com.bajera.xlog.rc.network.Pinger;
+import com.bajera.xlog.rc.network.ReceiveTask;
 import com.bajera.xlog.rc.settings.SharedPreferencesManager;
 import com.bajera.xlog.rc.models.Tasks;
 import com.bajera.xlog.rc.network.ConnectTask;
-import com.bajera.xlog.rc.network.DisconnectTask;
 import com.bajera.xlog.rc.network.NetworkNotification;
 import com.bajera.xlog.rc.network.NetworkObserver;
 import com.bajera.xlog.rc.network.SendDataTask;
@@ -22,6 +26,9 @@ public class ControlActivityPresenter implements NetworkObserver {
     private Connection connection;
     private SharedPreferencesManager sharedPrefs;
     private Pinger pinger = new Pinger(this);
+    // todo have server send screen dimensions and set values below accordingly
+    private int screenshotWidth = 1920;
+    private int screenshotHeight = 1080;
 
     public ControlActivityPresenter(View view, SharedPreferencesManager sharedPrefs) {
         this.view = view;
@@ -34,7 +41,6 @@ public class ControlActivityPresenter implements NetworkObserver {
     }
 
 
-
     public void onResume() {
         new ConnectTask(this).execute(server);
 
@@ -45,7 +51,9 @@ public class ControlActivityPresenter implements NetworkObserver {
     }
 
     public void onTaskClick(String task) {
-        new SendDataTask(this).execute(connection, Tasks.get(task));
+        boolean isRequestTask = task.startsWith("request");
+        new SendDataTask(this, isRequestTask).execute(connection, Tasks.get(task));
+
     }
 
     private void onPingResult(PingNotification result) {
@@ -63,6 +71,12 @@ public class ControlActivityPresenter implements NetworkObserver {
         }
     }
 
+    private void onDataReceive(Data data) {
+        if (data.getDataType().equals("screenshot")) {
+            view.setImage(data.getData(), screenshotWidth, screenshotHeight);
+        }
+    }
+
     @Override
     public void notify(NetworkNotification notification) {
         switch (notification.getMessage()) {
@@ -70,8 +84,12 @@ public class ControlActivityPresenter implements NetworkObserver {
                 this.connection = notification.getConnection();
                 view.postConnectAttempt(notification.success(),
                         connection.getServer().getHostname());
+                connection.setPresenter(this);
                 break;
             case Connection.actionSendData:
+                if (notification.isExpectingResponse()) {
+                    new ReceiveTask(this).execute(connection);
+                }
                 break;
             case Connection.actionDisconnect:
                 break;
@@ -79,6 +97,11 @@ public class ControlActivityPresenter implements NetworkObserver {
                 PingNotification pingResult = (PingNotification) notification;
                 onPingResult(pingResult);
                 break;
+            case Connection.actionReceive:
+                DataReceiveNotification result = (DataReceiveNotification) notification;
+                if (result.success()) {
+                    onDataReceive(result.getData());
+                }
             default:
                 break;
         }
@@ -86,7 +109,11 @@ public class ControlActivityPresenter implements NetworkObserver {
 
     public interface View {
         void setToolbarText(String title, String subtitle);
+
         void postConnectAttempt(boolean success, String hostname);
+
         void setPingText(String pingText);
+
+        void setImage(byte[] data, int width, int height);
     }
 }

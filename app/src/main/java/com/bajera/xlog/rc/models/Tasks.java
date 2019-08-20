@@ -20,6 +20,7 @@ public class Tasks {
         tasks.put("volume_down", "keys|press|volumedown");
         tasks.put("volume_mute", "keys|press|volumemute");
         tasks.put("play_pause", "keys|press|playpause");
+        tasks.put("request_screenshot", "request_screenshot");
     }
 
     public static String get(String key) {

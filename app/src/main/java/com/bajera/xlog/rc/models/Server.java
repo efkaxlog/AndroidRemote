@@ -7,12 +7,10 @@ package com.bajera.xlog.rc.models;
 public class Server {
 
     private String hostname, address;
-    private int port;
 
-    public Server(String hostname, String address, int port) {
+    public Server(String hostname, String address) {
         this.hostname = hostname;
         this.address = address;
-        this.port = port;
     }
 
     public String getHostname() {
@@ -21,9 +19,5 @@ public class Server {
 
     public String getAddress() {
         return address;
-    }
-
-    public int getPort() {
-        return port;
     }
 }

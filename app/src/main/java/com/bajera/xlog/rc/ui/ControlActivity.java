@@ -1,9 +1,11 @@
 package com.bajera.xlog.rc.ui;
 
+import android.graphics.Bitmap;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -11,6 +13,7 @@ import android.widget.Toast;
 import com.bajera.xlog.rc.presenters.ControlActivityPresenter;
 import com.bajera.xlog.rc.R;
 import com.bajera.xlog.rc.settings.SharedPreferencesManager;
+import com.bajera.xlog.rc.util.Util;
 
 
 /**
@@ -22,7 +25,8 @@ public class ControlActivity extends AppCompatActivity implements ControlActivit
     private Toolbar toolbar;
     private Switch pingToggle;
     private TextView tvPing;
-    
+    private ImageView ivScreen;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -30,7 +34,7 @@ public class ControlActivity extends AppCompatActivity implements ControlActivit
 
         presenter = new ControlActivityPresenter(
                 this, SharedPreferencesManager.getInstance(getApplicationContext()));
-        toolbar = (Toolbar) findViewById(R.id.toolbar_control);
+        toolbar = findViewById(R.id.toolbar_control);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
 
@@ -38,6 +42,8 @@ public class ControlActivity extends AppCompatActivity implements ControlActivit
         pingToggle = findViewById(R.id.switch_ping);
         pingToggle.setOnCheckedChangeListener((compoundButton, isChecked) ->
                 presenter.onPingToggle(isChecked));
+
+        ivScreen = findViewById(R.id.ivScreen);
 
         presenter.onViewCreated();
     }
@@ -60,8 +66,8 @@ public class ControlActivity extends AppCompatActivity implements ControlActivit
 
     @Override
     public void setToolbarText(String title, String subtitle) {
-        TextView tvTitle = (TextView) toolbar.findViewById(R.id.tv_toolbar_title);
-        TextView tvSubtitle = (TextView) toolbar.findViewById(R.id.tv_toolbar_subtitle);
+        TextView tvTitle = toolbar.findViewById(R.id.tv_toolbar_title);
+        TextView tvSubtitle = toolbar.findViewById(R.id.tv_toolbar_subtitle);
         tvTitle.setText(title);
         tvSubtitle.setText(subtitle);
     }
@@ -86,5 +92,13 @@ public class ControlActivity extends AppCompatActivity implements ControlActivit
         runOnUiThread(() -> {
             tvPing.setText(pingText);
         });
+    }
+
+    public void setImage(byte[] data, int width, int height) {
+        Bitmap bitmap = Util.bitmapFromBytes(data, width, height);
+        runOnUiThread(() -> {
+            ivScreen.setImageBitmap(bitmap);
+        });
+
     }
 }

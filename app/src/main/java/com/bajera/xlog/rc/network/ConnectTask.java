@@ -1,4 +1,5 @@
 package com.bajera.xlog.rc.network;
+
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -16,7 +17,6 @@ public class ConnectTask extends AsyncTask<Server, Void, NetworkNotification> {
 
     @Override
     protected NetworkNotification doInBackground(Server... servers) {
-        Log.v("ConnectTask", "In doInBackground()");
         Connection connection = new Connection();
         boolean success = false;
         try {
@@ -30,7 +30,6 @@ public class ConnectTask extends AsyncTask<Server, Void, NetworkNotification> {
 
     @Override
     protected void onPostExecute(NetworkNotification notification) {
-        Log.v("ConnectTask", "In onResume()");
         observer.notify(notification);
     }
 
