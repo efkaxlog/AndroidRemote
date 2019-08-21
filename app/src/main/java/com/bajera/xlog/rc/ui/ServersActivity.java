@@ -97,8 +97,9 @@ public class ServersActivity extends AppCompatActivity implements ServersActivit
     }
 
     @Override
-    public void openControlsActivity() {
+    public void openControlsActivity(Server server) {
         Intent intent = new Intent(this, ControlActivity.class);
+        intent.putExtra("server", server);
         startActivity(intent);
     }
 }

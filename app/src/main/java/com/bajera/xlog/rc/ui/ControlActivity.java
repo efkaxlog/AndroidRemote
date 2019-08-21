@@ -10,6 +10,7 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bajera.xlog.rc.models.Server;
 import com.bajera.xlog.rc.presenters.ControlActivityPresenter;
 import com.bajera.xlog.rc.R;
 import com.bajera.xlog.rc.settings.SharedPreferencesManager;
@@ -31,9 +32,10 @@ public class ControlActivity extends AppCompatActivity implements ControlActivit
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control);
+        Server server = (Server) getIntent().getSerializableExtra("server");
 
         presenter = new ControlActivityPresenter(
-                this, SharedPreferencesManager.getInstance(getApplicationContext()));
+                this, server, SharedPreferencesManager.getInstance(getApplicationContext()));
         toolbar = findViewById(R.id.toolbar_control);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);

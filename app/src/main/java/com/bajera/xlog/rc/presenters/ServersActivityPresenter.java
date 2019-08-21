@@ -41,8 +41,7 @@ public class ServersActivityPresenter implements NetworkObserver {
      */
     public void onListViewItemClicked(String hostname, String address) {
         Server server = new Server(hostname, address);
-        sharedPrefs.setLastServer(server);
-        view.openControlsActivity();
+        view.openControlsActivity(server);
     }
 
     /**
@@ -69,7 +68,7 @@ public class ServersActivityPresenter implements NetworkObserver {
         searching = false;
         view.serverSearchDone();
         if (autoConnect && isLastServerOnline()) {
-            view.openControlsActivity();
+            view.openControlsActivity(sharedPrefs.getLastServer());
         }
         autoConnect = false; // makes sure auto connects to last server only when app is started.
 
@@ -117,6 +116,6 @@ public class ServersActivityPresenter implements NetworkObserver {
 
         void notifyServerListChanged();
 
-        void openControlsActivity();
+        void openControlsActivity(Server server);
     }
 }

@@ -1,8 +1,5 @@
 package com.bajera.xlog.rc.presenters;
 
-import android.graphics.Bitmap;
-import android.util.Log;
-
 import com.bajera.xlog.rc.models.Data;
 import com.bajera.xlog.rc.network.Connection;
 import com.bajera.xlog.rc.models.Server;
@@ -30,10 +27,10 @@ public class ControlActivityPresenter implements NetworkObserver {
     private int screenshotWidth = 1920;
     private int screenshotHeight = 1080;
 
-    public ControlActivityPresenter(View view, SharedPreferencesManager sharedPrefs) {
+    public ControlActivityPresenter(View view, Server server, SharedPreferencesManager sharedPrefs) {
         this.view = view;
         this.sharedPrefs = sharedPrefs;
-        this.server = this.sharedPrefs.getLastServer();
+        this.server = server;
     }
 
     public void onViewCreated() {
@@ -84,7 +81,7 @@ public class ControlActivityPresenter implements NetworkObserver {
                 this.connection = notification.getConnection();
                 view.postConnectAttempt(notification.success(),
                         connection.getServer().getHostname());
-                connection.setPresenter(this);
+                sharedPrefs.setLastServer(connection.getServer());
                 break;
             case Connection.actionSendData:
                 if (notification.isExpectingResponse()) {

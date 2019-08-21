@@ -35,8 +35,6 @@ public class Connection {
     private int defaultTimeout = 200; // ms
     private int receiveTimeout = 2000; // for receiving operations
 
-    private ControlActivityPresenter presenter;
-
     /**
      * Sets up a socket and connects to server.
      */
@@ -117,9 +115,5 @@ public class Connection {
 
     public Server getServer() {
         return server;
-    }
-
-    public void setPresenter(ControlActivityPresenter presenter) {
-        this.presenter = presenter;
     }
 }
