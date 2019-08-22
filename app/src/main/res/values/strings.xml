@@ -19,6 +19,8 @@
     <string name="play_pause">Play/Pause</string>
     <string name="ping">Ping</string>
     <string name="screenshot">Screenshot</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
 
     <!--Shared Preferences keys-->
     <string name="preference_file_key">com.bajera.xlog.rc</string>

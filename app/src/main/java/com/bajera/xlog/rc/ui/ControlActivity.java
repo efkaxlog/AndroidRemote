@@ -1,6 +1,9 @@
 package com.bajera.xlog.rc.ui;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -27,15 +30,17 @@ public class ControlActivity extends AppCompatActivity implements ControlActivit
     private Switch pingToggle;
     private TextView tvPing;
     private ImageView ivScreen;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_control);
+        context = getApplicationContext();
         Server server = (Server) getIntent().getSerializableExtra("server");
 
         presenter = new ControlActivityPresenter(
-                this, server, SharedPreferencesManager.getInstance(getApplicationContext()));
+                this, server, SharedPreferencesManager.getInstance(context));
         toolbar = findViewById(R.id.toolbar_control);
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
@@ -51,7 +56,21 @@ public class ControlActivity extends AppCompatActivity implements ControlActivit
     }
 
     public void onTaskClick(View view) {
-        presenter.onTaskClick(view.getTag().toString());
+        String task = view.getTag().toString();
+        if (task.equals("shutdown")) {
+            new AlertDialog.Builder(this)
+                    .setTitle("Shutdown")
+                    .setMessage("Do you really want to shutdown server?")
+                    .setIcon(android.R.drawable.ic_dialog_alert)
+                    .setPositiveButton(android.R.string.yes, (dialog, whichButton) ->
+                            presenter.onTaskClick(view.getTag().toString()))
+                    .setNegativeButton(android.R.string.no, (dialogInterface, i) -> {
+                        dialogInterface.cancel();
+                    }).show();
+        } else {
+            presenter.onTaskClick(view.getTag().toString());
+        }
+
     }
 
     @Override
