@@ -82,6 +82,8 @@ public class ControlActivityPresenter implements NetworkObserver {
                 view.postConnectAttempt(notification.success(),
                         connection.getServer().getHostname());
                 sharedPrefs.setLastServer(connection.getServer());
+                // get screenshot of server on connect
+                new SendDataTask(this, true).execute(connection, "request_screenshot");
                 break;
             case Connection.actionSendData:
                 if (notification.isExpectingResponse()) {
