@@ -1,12 +1,21 @@
 import tasks
 from server import Server
 from server_discovery import ServerDiscovery
-import screen
+from screen import ScreenSnapper
 
 discovery_port = 9997  # for server discovery
 send_port = 9998  # for receiver socket
 recv_port = 9999  # for sender socket
 
+
+def time(string, timer):
+    """
+    For debugging, measuring time. After a TicToc object called .tic(), pass the object and
+    call this to see how much time since then passed.
+    :param timer: TicToc object
+    """
+    elapsed = timer.tocvalue(restart=True) * 1000
+    print(string + ": " + str(int(elapsed)))
 
 
 def main():
@@ -26,7 +35,7 @@ def main():
             elif data == "ping":
                 server.ping_response()
             elif data == "request_screenshot":
-                data = screen.ScreenSnapper().screenshot().tobytes()
+                data = ScreenSnapper().screenshot_png()
                 server.send_data(data, "screenshot")
             else:
                 task = tasks.make_task(data)

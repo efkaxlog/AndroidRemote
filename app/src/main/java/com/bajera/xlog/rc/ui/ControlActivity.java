@@ -3,6 +3,7 @@ package com.bajera.xlog.rc.ui;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -116,7 +117,7 @@ public class ControlActivity extends AppCompatActivity implements ControlActivit
     }
 
     public void setImage(byte[] data, int width, int height) {
-        Bitmap bitmap = Util.bitmapFromBytes(data, width, height);
+        Bitmap bitmap = BitmapFactory.decodeByteArray(data, 0, data.length);
         runOnUiThread(() -> {
             ivScreen.setImageBitmap(bitmap);
         });
