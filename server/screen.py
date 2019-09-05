@@ -2,6 +2,7 @@ import mss
 import mss.tools
 import numpy
 import io
+import pyautogui
 
 from PIL import Image
 
@@ -20,8 +21,7 @@ class ScreenSnapper:
 
     def __init__(self):
         self.sct = mss.mss()
-        width = 1920
-        height = 1080
+        width, height = pyautogui.size()
         # To what dimensions the screenshot will be scaled down to
         self.scale = (320, 180)
         self.monitor = {"top": 0, "left": 0, "width": width, "height": height}
