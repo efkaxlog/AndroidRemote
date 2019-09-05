@@ -2,6 +2,7 @@ import tasks
 from server import Server
 from server_discovery import ServerDiscovery
 from screen import ScreenSnapper
+from pytictoc import TicToc
 
 discovery_port = 9997  # for server discovery
 send_port = 9998  # for receiver socket
@@ -17,8 +18,7 @@ def time(string, timer):
     elapsed = timer.tocvalue(restart=True) * 1000
     print(string + ": " + str(int(elapsed)))
 
-
-def main():
+if __name__ == "__main__":
     server_discovery = ServerDiscovery(discovery_port)  # Starts a new thread with UDP socket.
     server = Server(recv_port, send_port)
     server.bind()
@@ -27,7 +27,11 @@ def main():
         print(server.client_recv_socket)
         print(server.client_sender_socket)
         while True:
-            data = server.receive().decode()
+            try:
+                data = server.receive().decode()
+            except:
+                print("bad data")
+                continue
             print(data)
             if data == "close":
                 server.close_client()
@@ -41,7 +45,3 @@ def main():
                 task = tasks.make_task(data)
                 if task is not None:
                     task.execute()
-
-
-if __name__ == "__main__":
-    main()
