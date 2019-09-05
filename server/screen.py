@@ -1,7 +1,20 @@
 import mss
 import mss.tools
 import numpy
+import io
 
+from PIL import Image
+
+
+def scale_sct(sct, scale):
+    """
+    :param sct: mss Screenshot object
+    :param scale: (width, height) tuple
+    :return: PIL Image object
+    """
+    image = Image.frombytes("RGB", sct.size, sct.bgra, "raw", "BGRX")
+    image.resize(scale, Image.NEAREST)
+    return image
 
 class ScreenSnapper:
 
@@ -9,13 +22,17 @@ class ScreenSnapper:
         self.sct = mss.mss()
         width = 1920
         height = 1080
+        # To what dimensions the screenshot will be scaled down to
+        self.scale = (320, 180)
         self.monitor = {"top": 0, "left": 0, "width": width, "height": height}
 
     def screenshot_rgb(self):
         #  todo: detect screen dimensions
-        return numpy.array(self.sct.grab(self.monitor), dtype=numpy.uint8)[..., [2, 1, 0]]
+        return numpy.array(self.sct.grab(self.monitor), dtype=numpy.uint8)[..., [2, 1, 0]].tobytes()
 
     def screenshot_png(self):
-        sct_img = self.sct.grab(self.monitor)
-        png = mss.tools.to_png(sct_img.rgb, sct_img.size)
-        return png
+        sct = self.sct.grab(self.monitor)
+        sct_scaled = scale_sct(sct, self.scale)
+        with io.BytesIO() as output:
+            sct_scaled.save(output, "png")
+            return output.getvalue()
